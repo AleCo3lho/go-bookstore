@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  db:
+    container_name: mysql
+    image: mysql:8.0.33
+    volumes:
+      - ./01-simplerest.sql:/docker-entrypoint-initdb.d/01-simplerest.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: "MYSQL123456!"
+    ports:
+      - "3306:3306"
+  web:
+    container_name: web
+    build: ../
+    ports:
+      - "8082:8082"
+    links:
+    - db
+
+networks:
+  common-net: {}
